@@ -10,6 +10,8 @@ import com.musiclibrary.musiclibrarywebservice.service.UserManager;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -22,7 +24,7 @@ public class UserController
     @Autowired
     private UserManager userService;
     
-     @GetMapping("/users")
+    @GetMapping("/users")
     public List<UserDTO>  getUsers()
     {
         List<UserDTO> users = userService.getUsers();
@@ -57,4 +59,11 @@ public class UserController
         
         return users;
     }
+    
+    @PostMapping(path = "/user")
+    public UserDTO postUser(@RequestBody UserDTO userDTO)
+    {
+        UserDTO userCreated = userService.insertUser(userDTO);
+        return userCreated;
+    }        
 }
