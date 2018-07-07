@@ -9,6 +9,7 @@ import com.musiclibrary.musiclibraryapi.dto.UserDTO;
 import com.musiclibrary.musiclibrarywebservice.service.UserManager;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,5 +84,14 @@ public class UserController
         UserDTO userUpdated = userService.updateUser(userDTO, userId);
         
         return userUpdated;
+    }
+    
+    @DeleteMapping("/users/{id}")
+    public UserDTO deleteUser(@PathVariable(name = "id") long userId)
+    {
+        System.out.println("USER ID TO DELETE : "+userId);
+        UserDTO deletedUser = userService.deleteById(userId);
+        
+        return deletedUser;
     }
 }
