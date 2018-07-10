@@ -63,7 +63,7 @@ public class UserController
         return users;
     }
     
-    @PostMapping(path = "/user")
+    @PostMapping(path = "/users/create")
     public UserDTO postUser(@RequestBody UserDTO userDTO)
     {
         UserDTO userCreated = userService.insertUser(userDTO);
