@@ -86,7 +86,7 @@ public class UserController
         return userUpdated;
     }
     
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/users/delete/{id}")
     public UserDTO deleteUser(@PathVariable(name = "id") long userId)
     {
         System.out.println("USER ID TO DELETE : "+userId);
