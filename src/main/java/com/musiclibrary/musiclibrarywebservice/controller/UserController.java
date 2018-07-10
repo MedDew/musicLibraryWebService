@@ -77,7 +77,7 @@ public class UserController
         return user;
     }
     
-    @PutMapping(path = "/users/{id}")
+    @PutMapping(path = "/users/update/{id}")
     public UserDTO putUser(@RequestBody UserDTO userDTO, @PathVariable(name = "id") long userId )
     {
         System.out.println("USER ID TO UPDATE : "+userId);
