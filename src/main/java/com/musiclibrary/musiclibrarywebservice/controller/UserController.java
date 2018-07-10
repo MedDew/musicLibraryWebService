@@ -70,7 +70,7 @@ public class UserController
         return userCreated;
     }
     
-    @GetMapping(path = "/user/{id}")
+    @GetMapping(path = "/users/{id}")
     public UserDTO getUser(@PathVariable(name = "id") long userId)
     {
         UserDTO user = userService.findById(userId);
