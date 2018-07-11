@@ -40,4 +40,9 @@ public class Genre
     
     @ManyToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "genres")
     private Set<Music> musics = new HashSet<Music>();
+    
+    public Genre(String genreName)
+    {
+        this.genreName = genreName;
+    }
 }
