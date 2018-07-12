@@ -32,4 +32,9 @@ public class Category
     
     @Column(length = 30 ,unique = true)
     private String categoryName;
+    
+    public Category(String categoryName)
+    {
+        this.categoryName = categoryName;
+    }
 }
