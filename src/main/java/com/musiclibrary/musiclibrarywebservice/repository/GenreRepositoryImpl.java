@@ -24,18 +24,18 @@ public class GenreRepositoryImpl implements GenreRepository
     @PersistenceContext
     private EntityManager em;
     
-    private static final String GET_USERS = "Select g From Genre g";
+    private static final String GET_GENRES = "Select g From Genre g";
     
-    private static final String GET_USER_BY_ID_NAMED_PARAMETER = "Select g From Genre g Where id = :id ";
-    private static final String USER_ID_NAMED_PARAMETER = "id";
+    private static final String GET_GENRE_BY_ID_NAMED_PARAMETER = "Select g From Genre g Where id = :id ";
+    private static final String GENRE_ID_NAMED_PARAMETER = "id";
     
-    private static final String GET_USER_BY_ID_POSITIONAL_PARAMETER = "Select g From Genre g Where id = ?1";
-    private static final int USER_ID_POSITIONAL_PARAMETER = 1;
+    private static final String GET_GENRE_BY_ID_POSITIONAL_PARAMETER = "Select g From Genre g Where id = ?1";
+    private static final int GENRE_ID_POSITIONAL_PARAMETER = 1;
     
     @Override
     public List<Genre> getGenres() 
     {
-        Query q = em.createQuery(GET_USERS);
+        Query q = em.createQuery(GET_GENRES);
         List<Genre> genreList =  q.getResultList();
         
         return genreList;
@@ -75,10 +75,10 @@ public class GenreRepositoryImpl implements GenreRepository
     @Override
     public Genre findById(long id) 
     {
-        TypedQuery<Genre> foundGenre =  em.createQuery(GET_USER_BY_ID_NAMED_PARAMETER, Genre.class);
-        foundGenre.setParameter(USER_ID_NAMED_PARAMETER, id);
-//        TypedQuery<Genre> foundGenreAlt =  em.createQuery(GET_USER_BY_ID_POSITIONAL_PARAMETER, Genre.class);
-//        foundGenreAlt.setParameter(USER_ID_POSITIONAL_PARAMETER, id);
+        TypedQuery<Genre> foundGenre =  em.createQuery(GET_GENRE_BY_ID_NAMED_PARAMETER, Genre.class);
+        foundGenre.setParameter(GENRE_ID_NAMED_PARAMETER, id);
+//        TypedQuery<Genre> foundGenreAlt =  em.createQuery(GET_GENRE_BY_ID_POSITIONAL_PARAMETER, Genre.class);
+//        foundGenreAlt.setParameter(GENRE_ID_POSITIONAL_PARAMETER, id);
         
         Genre genre = foundGenre.getSingleResult();
         
