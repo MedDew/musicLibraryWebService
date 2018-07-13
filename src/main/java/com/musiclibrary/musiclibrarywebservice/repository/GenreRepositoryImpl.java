@@ -7,7 +7,10 @@ package com.musiclibrary.musiclibrarywebservice.repository;
 
 import com.musiclibrary.musiclibraryapi.dto.GenreDTO;
 import com.musiclibrary.musiclibrarywebservice.entity.Genre;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -31,6 +34,9 @@ public class GenreRepositoryImpl implements GenreRepository
     
     private static final String GET_GENRE_BY_ID_POSITIONAL_PARAMETER = "Select g From Genre g Where id = ?1";
     private static final int GENRE_ID_POSITIONAL_PARAMETER = 1;
+    
+    private static final String GET_GENRES_BY_ID_NAMED_PARAMETER = "Select g From Genre g Where id IN :genredIds";
+    private static final String GENRES_ID_NAMED_PARAMETER = "genredIds";
     
     @Override
     public List<Genre> getGenres() 
@@ -83,6 +89,17 @@ public class GenreRepositoryImpl implements GenreRepository
         Genre genre = foundGenre.getSingleResult();
         
         return genre;
+    }
+
+    @Override
+    public Set<Genre> findByIdS(Set<Long> ids) 
+    {
+        TypedQuery<Genre> genres = em.createQuery(GET_GENRES_BY_ID_NAMED_PARAMETER, Genre.class);
+        genres.setParameter(GET_GENRES_BY_ID_NAMED_PARAMETER, ids);
+        
+        Set<Genre> genresSet = new HashSet<>((Collection<? extends Genre>) genres);
+        
+        return genresSet;
     }
     
 }
