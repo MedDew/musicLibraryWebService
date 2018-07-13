@@ -6,6 +6,7 @@
 package com.musiclibrary.musiclibrarywebservice.entity;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -57,4 +58,34 @@ public class Music
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "music_genre", joinColumns = {@JoinColumn(name = "music_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
     private Set<Genre> genres = new HashSet<Genre>();
+    
+    private String convertedReleaseYearToString;
+
+    public Music(String album, String band, LocalDate releaseYear, Category category) 
+    {
+        this.album = album;
+        this.band = band;
+        this.releaseYear = releaseYear;
+        this.category = category;
+    }
+    
+    public String getConvertedReleaseYearToString()
+    {
+        return this.convertedReleaseYearToString;
+    }
+    
+    public void setConvertedReleaseYearToString(LocalDate dateToConvert)
+    {
+        String convertedDate = convertFromLocalDateToString(dateToConvert);
+        this.convertedReleaseYearToString = convertedDate;
+    }
+    
+    private String convertFromLocalDateToString(LocalDate dateToConvert)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String localDate = dateToConvert.format(formatter);
+        
+        return localDate;
+    }
+    
 }
