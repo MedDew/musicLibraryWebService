@@ -8,6 +8,7 @@ package com.musiclibrary.musiclibrarywebservice.repository;
 import com.musiclibrary.musiclibraryapi.dto.GenreDTO;
 import com.musiclibrary.musiclibrarywebservice.entity.Genre;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -24,4 +25,6 @@ public interface GenreRepository
     Genre deleteGenreById(GenreDTO genreDTO, long id);
     
     Genre findById(long id);
+    
+    Set<Genre> findByIdS(Set<Long> ids);
 }
