@@ -15,11 +15,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Mehdi
  */
+@Repository
 public class MusicRepositoryImpl implements MusicRepository
 {
     @Autowired
