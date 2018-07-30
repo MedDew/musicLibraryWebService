@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,6 +60,7 @@ public class Music
     @JoinTable(name = "music_genre", joinColumns = {@JoinColumn(name = "music_id")}, inverseJoinColumns = {@JoinColumn(name = "genre_id")})
     private Set<Genre> genres = new HashSet<Genre>();
     
+    @Transient
     private String convertedReleaseYearToString;
 
     public Music(String album, String band, LocalDate releaseYear, Category category) 
