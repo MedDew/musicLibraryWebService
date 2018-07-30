@@ -69,7 +69,7 @@ public class GenreRepositoryImpl implements GenreRepository
     }
 
     @Override
-    public Genre deleteGenreById(GenreDTO genreDTO, long id) 
+    public Genre deleteGenreById(long id) 
     {
         Genre foundGenre = em.find(Genre.class, id);//genreDTO.getId()
         

@@ -60,9 +60,9 @@ public class GenreController
     }
     
     @DeleteMapping(path = "/genres/delete/{id}")
-    public GenreDTO deleteGenre(@RequestBody GenreDTO genreDTO, @PathVariable(name = "id") long userId)
+    public GenreDTO deleteGenre( @PathVariable(name = "id") long userId)
     {
-        GenreDTO deletedGenre = genreService.deleteGenreByID(genreDTO, userId);
+        GenreDTO deletedGenre = genreService.deleteGenreByID( userId);
         
         return deletedGenre;
     }

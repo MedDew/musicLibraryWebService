@@ -20,7 +20,7 @@ public interface GenreManager
     
     GenreDTO updateGenre(GenreDTO genreDTO, long id);
     
-    GenreDTO deleteGenreByID(GenreDTO genreDTO, long id);
+    GenreDTO deleteGenreByID( long id);
     
     GenreDTO findByID(long id);
 }

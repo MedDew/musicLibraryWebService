@@ -22,7 +22,7 @@ public interface GenreRepository
     
     Genre updateGenre(GenreDTO genreDTO, long id);
     
-    Genre deleteGenreById(GenreDTO genreDTO, long id);
+    Genre deleteGenreById(long id);
     
     Genre findById(long id);
     

@@ -60,9 +60,9 @@ public class GenreManagerService implements GenreManager
     }
 
     @Override
-    public GenreDTO deleteGenreByID(GenreDTO genreDTO, long id) 
+    public GenreDTO deleteGenreByID( long id) 
     {
-        Genre deletedGenre = genreRepo.deleteGenreById(genreDTO, id);
+        Genre deletedGenre = genreRepo.deleteGenreById(id);
         GenreDTO genre = new GenreDTO(deletedGenre.getId(), deletedGenre.getGenreName());
         
         return genre;
