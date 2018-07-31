@@ -119,6 +119,26 @@ public class MusicRepositoryImpl implements MusicRepository
         
         return foundMusic;
     }
+
+    @Override
+    public Music removeGenreMusic(MusicDTO musicDTO, long id) 
+    {
+        //FIND THE Music TO REMOVE Genre To
+        Music foundMusic = em.find(Music.class, id);
+        
+        //FIND THE Correct Genre
+        Set<Genre> genreToRemove = genreRepo.findByIdS(musicDTO.getGenres());
+        
+//        foundMusic.getGenres().removeAll(genreToRemove);
+        genreToRemove.forEach(g -> {
+            foundMusic.getGenres().remove(g);
+        });
+        
+        //CONVERT RELEASE YEAR FROM LocalDate TO String
+        foundMusic.setConvertedReleaseYearToString(foundMusic.getReleaseYear());
+        
+        return foundMusic;
+    }
     
     @Override
     public Music deleteMusicById(long id) 
