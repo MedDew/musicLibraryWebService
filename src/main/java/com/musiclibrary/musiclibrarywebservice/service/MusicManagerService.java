@@ -131,6 +131,34 @@ public class MusicManagerService implements MusicManager
     }
 
     @Override
+    public MusicDTO addGenreMusic(MusicDTO musicDTO, long id) 
+    {
+        Music addedGenreMusic = musicRepo.addGenreMusic(musicDTO, id);
+        
+        //CRAPPY
+        //FIND THE CORRECT Category ASSOCIATED TO THE Music WHICH WAS ADDED Genre 
+        //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        addedGenreMusic.getCategory().getId();
+        CategoryDTO category = categoryService.findById(addedGenreMusic.getCategory().getId());
+        
+        //CRAPPY
+        //FIND THE CORRECT Genres ASSOCIATED TO THE Music WHICH WAS ADDED Genre
+        //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        List<GenreDTO> genres = genreService.findByIDS(musicDTO.getGenres());
+
+        MusicDTO music = new MusicDTO(
+                                       addedGenreMusic.getId(), 
+                                       addedGenreMusic.getAlbum(), 
+                                       addedGenreMusic.getBand(), 
+                                       addedGenreMusic.getConvertedReleaseYearToString(), 
+                                       category, 
+                                       genres
+                                     );
+        
+        return music;
+    }
+    
+    @Override
     public MusicDTO deleteMusicById(long id) 
     {
         Music deletedMusic = musicRepo.deleteMusicById(id);
