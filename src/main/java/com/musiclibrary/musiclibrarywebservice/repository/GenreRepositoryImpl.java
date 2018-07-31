@@ -95,9 +95,11 @@ public class GenreRepositoryImpl implements GenreRepository
     public Set<Genre> findByIdS(Set<Long> ids) 
     {
         TypedQuery<Genre> genres = em.createQuery(GET_GENRES_BY_ID_NAMED_PARAMETER, Genre.class);
-        genres.setParameter(GET_GENRES_BY_ID_NAMED_PARAMETER, ids);
+        genres.setParameter(GENRES_ID_NAMED_PARAMETER, ids);
         
-        Set<Genre> genresSet = new HashSet<>((Collection<? extends Genre>) genres);
+        List<Genre> genreList = genres.getResultList();
+        
+        Set<Genre> genresSet = new HashSet<>(genreList);
         
         return genresSet;
     }
