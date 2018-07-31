@@ -59,12 +59,20 @@ public class MusicController
         return updatedMusic;
     }
     
-    @PutMapping(path = "/musics/update/addGenre/{id}")
+    @PostMapping(path = "/musics/update/addGenre/{id}")
     public MusicDTO addGenreMusic(@RequestBody MusicDTO musicDTO, @PathVariable(name = "id") long musicId)
     {
         MusicDTO updatedMusic = musicService.addGenreMusic(musicDTO, musicId);
         
         return updatedMusic;
+    }
+    
+    @DeleteMapping(path = "/musics/delete/removeGenre/{id}")
+    public MusicDTO deleteMusic(@RequestBody MusicDTO musicDTO, @PathVariable long id)
+    {
+        MusicDTO deletedMusic = musicService.removeGenreMusic(musicDTO, id);
+        
+        return deletedMusic;
     }
     
     @DeleteMapping(path = "/musics/delete/{id}")
