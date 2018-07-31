@@ -23,6 +23,8 @@ public interface MusicRepository
     
     Music addGenreMusic(MusicDTO musicDTO, long id);
     
+    Music removeGenreMusic(MusicDTO musicDTO, long id);
+    
     Music deleteMusicById(long id);
     
     Music findById(long id);
