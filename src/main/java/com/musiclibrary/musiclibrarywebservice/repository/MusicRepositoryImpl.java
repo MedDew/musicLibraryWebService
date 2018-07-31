@@ -59,7 +59,10 @@ public class MusicRepositoryImpl implements MusicRepository
         //RECOVER THE Category
         Category foundCategory = categoryRepo.findById(musicDTO.getCategoryId());
         
-        Music music = new Music(musicDTO.getAlbum(), musicDTO.getBand(), musicDTO.getReleaseYearLocalDate(), foundCategory);
+        //RECOVER THE Genre
+        Set<Genre> genres = genreRepo.findByIdS(musicDTO.getGenres()); 
+        
+        Music music = new Music(musicDTO.getAlbum(), musicDTO.getBand(), musicDTO.getReleaseYearLocalDate(), foundCategory, genres);
         em.persist(music);
         
         //CONVERT RELEASE YEAR DATE FROM LocalDate TO String
