@@ -136,13 +136,13 @@ public class MusicManagerService implements MusicManager
         Music addedGenreMusic = musicRepo.addGenreMusic(musicDTO, id);
         
         //CRAPPY
-        //FIND THE CORRECT Category ASSOCIATED TO THE Music WHICH WAS ADDED Genre 
+        //FIND THE CORRECT Category ASSOCIATED TO THE Music WHICH WAS/WERE ADDED Genre 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
         addedGenreMusic.getCategory().getId();
         CategoryDTO category = categoryService.findById(addedGenreMusic.getCategory().getId());
         
         //CRAPPY
-        //FIND THE CORRECT Genres ASSOCIATED TO THE Music WHICH WAS ADDED Genre
+        //FIND THE CORRECT Genres ASSOCIATED TO THE Music WHICH WAS/WERE ADDED Genre
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
         List<GenreDTO> genres = genreService.findByIDS(musicDTO.getGenres());
 
@@ -153,6 +153,33 @@ public class MusicManagerService implements MusicManager
                                        addedGenreMusic.getConvertedReleaseYearToString(), 
                                        category, 
                                        genres
+                                     );
+        
+        return music;
+    }
+
+    @Override
+    public MusicDTO removeGenreMusic(MusicDTO musicDTO, long id) 
+    {
+        Music removedGenreMusic = musicRepo.removeGenreMusic(musicDTO, id);
+        
+        //CRAPPY
+        //FIND THE CORRECT Category ASSOCIATED TO THE Music WHICH WAS/WERE REMOVED Genre 
+        //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        CategoryDTO category = categoryService.findById(removedGenreMusic.getCategory().getId());
+        
+        //CRAPPY
+        //FIND THE CORRECT Genres ASSOCIATED TO THE Music WHICH WAS/WERE ADDED Genre
+        //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        List<GenreDTO> genres = genreService.findByIDS(musicDTO.getGenres());
+        
+        MusicDTO music = new MusicDTO(
+                                        removedGenreMusic.getId(), 
+                                        removedGenreMusic.getAlbum(), 
+                                        removedGenreMusic.getBand(), 
+                                        removedGenreMusic.getConvertedReleaseYearToString(), 
+                                        category, 
+                                        genres
                                      );
         
         return music;
