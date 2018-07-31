@@ -102,6 +102,25 @@ public class MusicRepositoryImpl implements MusicRepository
     }
 
     @Override
+    public Music addGenreMusic(MusicDTO musicDTO, long id) 
+    {
+        //FIND THE Music TO ADD Genre To
+        Music foundMusic = em.find(Music.class, id);
+        
+        //FIND THE Correct Genre
+        Set<Genre> genreToAdd= genreRepo.findByIdS(musicDTO.getGenres());
+        
+        genreToAdd.forEach(g -> {
+            foundMusic.getGenres().add(g);
+        });
+        
+        //CONVERT RELEASE YEAR FROM LocalDate TO String
+        foundMusic.setConvertedReleaseYearToString(foundMusic.getReleaseYear());
+        
+        return foundMusic;
+    }
+    
+    @Override
     public Music deleteMusicById(long id) 
     {
         //FIND THE Music TO UPDATE
