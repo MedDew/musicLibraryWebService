@@ -22,6 +22,8 @@ public interface MusicManager
     
     MusicDTO addGenreMusic(MusicDTO musicDTO, long id);
     
+    MusicDTO removeGenreMusic(MusicDTO musicDTO, long id);
+    
     MusicDTO deleteMusicById(long id);
     
     MusicDTO findById(long id);
