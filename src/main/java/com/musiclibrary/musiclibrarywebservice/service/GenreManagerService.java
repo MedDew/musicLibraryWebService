@@ -9,7 +9,9 @@ import com.musiclibrary.musiclibraryapi.dto.GenreDTO;
 import com.musiclibrary.musiclibrarywebservice.entity.Genre;
 import com.musiclibrary.musiclibrarywebservice.repository.GenreRepository;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,6 +77,21 @@ public class GenreManagerService implements GenreManager
         GenreDTO genre = new GenreDTO(foundGenre.getId(), foundGenre.getGenreName());
         
         return genre;
+    }
+
+    @Override
+    public List<GenreDTO> findByIDS(Set<Long> ids) 
+    {
+        Set<Genre> foundGenres = genreRepo.findByIdS(ids);
+        List<GenreDTO> genres = new ArrayList<>();
+        
+        foundGenres.forEach(g -> {
+            GenreDTO genre = new GenreDTO(g.getId(), g.getGenreName());
+            
+            genres.add(genre);
+        });
+        
+        return genres;
     }
     
 }
