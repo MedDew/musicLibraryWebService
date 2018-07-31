@@ -63,12 +63,13 @@ public class Music
     @Transient
     private String convertedReleaseYearToString;
 
-    public Music(String album, String band, LocalDate releaseYear, Category category) 
+    public Music(String album, String band, LocalDate releaseYear, Category category, Set<Genre> genres) 
     {
         this.album = album;
         this.band = band;
         this.releaseYear = releaseYear;
         this.category = category;
+        this.genres = genres;
     }
     
     public String getConvertedReleaseYearToString()
