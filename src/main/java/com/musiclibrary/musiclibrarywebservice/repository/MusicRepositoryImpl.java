@@ -75,10 +75,10 @@ public class MusicRepositoryImpl implements MusicRepository
     public Music updateMusic(MusicDTO musicDTO, long id) 
     {
         //FIND THE Music TO UPDATE
-        Music foundMusic = em.find(Music.class, id);
+        Music foundMusic = findById(id);//em.find(Music.class, id)
         
         //FIND THE Category RELATED TO THE Music
-        Category foundCategory = categoryRepo.findById(musicDTO.getCategoryId());
+        Category foundCategory = categoryRepo.findById(musicDTO.getCategoryId());//musicDTO.getCategoryId()
         
         //FIND THE Genre RELATED TO THE Music
         Set<Genre> foundGenres = genreRepo.findByIdS(musicDTO.getGenres());
@@ -105,7 +105,7 @@ public class MusicRepositoryImpl implements MusicRepository
     public Music addGenreMusic(MusicDTO musicDTO, long id) 
     {
         //FIND THE Music TO ADD Genre To
-        Music foundMusic = em.find(Music.class, id);
+        Music foundMusic = findById(id);//em.find(Music.class, id)
         
         //FIND THE Correct Genre
         Set<Genre> genreToAdd= genreRepo.findByIdS(musicDTO.getGenres());
@@ -124,7 +124,7 @@ public class MusicRepositoryImpl implements MusicRepository
     public Music removeGenreMusic(MusicDTO musicDTO, long id) 
     {
         //FIND THE Music TO REMOVE Genre To
-        Music foundMusic = em.find(Music.class, id);
+        Music foundMusic = findById(id);//em.find(Music.class, id)
         
         //FIND THE Correct Genre
         Set<Genre> genreToRemove = genreRepo.findByIdS(musicDTO.getGenres());
@@ -144,7 +144,7 @@ public class MusicRepositoryImpl implements MusicRepository
     public Music deleteMusicById(long id) 
     {
         //FIND THE Music TO UPDATE
-        Music foundMusic = em.find(Music.class, id);
+        Music foundMusic = findById(id);//em.find(Music.class, id)
         
         em.remove(foundMusic);
         
