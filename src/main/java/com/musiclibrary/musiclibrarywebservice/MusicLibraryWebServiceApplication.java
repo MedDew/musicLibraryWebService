@@ -8,16 +8,26 @@ package com.musiclibrary.musiclibrarywebservice;
 import java.util.Date;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  *
  * @author Mehdi
  */
 @SpringBootApplication
+//@EnableWebMvc
 public class MusicLibraryWebServiceApplication 
 {
+    
+//    @Autowired
+//    private DispatcherServlet dispatcherServlet;
     
 //    @PostConstruct
 //    public void init(){
@@ -29,4 +39,11 @@ public class MusicLibraryWebServiceApplication
     {
         SpringApplication.run(MusicLibraryWebServiceApplication.class, args);
     }
+    
+//    @Bean
+//    public CommandLineRunner getCommandLineRunner(ApplicationContext context) 
+//    {
+//        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+//        return args -> {};
+//    }
 }
