@@ -6,6 +6,7 @@
 package com.musiclibrary.musiclibrarywebservice.controller;
 
 import com.musiclibrary.musiclibraryapi.dto.GenreDTO;
+import com.musiclibrary.musiclibrarywebservice.bean.RequestContext;
 import com.musiclibrary.musiclibrarywebservice.service.GenreManager;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class GenreController
     @Autowired
     private GenreManager genreService;
     
+    @Autowired
+    private RequestContext requestContext;
+    
     @GetMapping(path = "/genres")
     public List<GenreDTO> getGenres()
     {
@@ -46,6 +50,7 @@ public class GenreController
     @PostMapping("/genres/create")
     public GenreDTO postGenre(@RequestBody GenreDTO genreDTO)
     {
+        requestContext.setGenreDTO(genreDTO);
         GenreDTO createdGenre = genreService.insertGenre(genreDTO);
         
         return createdGenre;
