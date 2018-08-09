@@ -5,12 +5,21 @@
  */
 package com.musiclibrary.musiclibrarywebservice.excpetionhandler;
 
+import com.musiclibrary.musiclibrarywebservice.ApplicationExceptionMessageConfig;
 import com.musiclibrary.musiclibrarywebservice.bean.RequestContext;
-import javax.persistence.EntityNotFoundException;
+import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
 import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +44,37 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
     
     @Autowired
     private RequestContext request;
+    
+    @Autowired
+    private ApplicationExceptionMessageConfig exceptionMessageConfig;
+    
+    @Autowired
+    private MessageSource messageSource;
+    
+    private static Map<String, String> exceptionMessageKeyValue = new HashMap<>();
+    
+    private static final Map<String, String> uniqueConstraints = new HashMap<>();
+    /*Static initialization of uniqueConstraints
+    static 
+    {
+        Map<String, String> uniqueConstraintMessage = new HashMap<String, String>();
+
+        uniqueConstraintMessage.put( "UK_GenreName", getExceptionMessage().get("UK_GenreName"));
+        
+        uniqueConstraints = Collections.unmodifiableMap(uniqueConstraintMessage);
+    }
+    
+    
+    public static void setUniqueConstraint()
+    {
+        
+        uniqueConstraints.put("UK_GenreName", MessageFormat.format(
+                                                                    exceptionMessageConfig.getDuplicateEntryMessage(), 
+                                                                    request.getGenreDTO().getGenreName(),
+                                                                    "UK_GenreName"
+                                                                ));
+    }
+    */
     
     /**
      * Handles EntityNotFoundException. Created to encapsulate errors with more detail than javax.persistence.EntityNotFoundException.
@@ -109,5 +149,55 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         
         return buildResponseEntity(apiError);
 //        return super.handleHttpRequestMethodNotSupported(ex, headers, status, request); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<Object> handleMySQLIntegrityConstraintViolationException(DataIntegrityViolationException ex)
+    {
+        ApiError apiError = new ApiError(HttpStatus.CONFLICT);
+        System.out.println("Exception : "+ex);
+        System.out.println("Exception : "+ex.getMessage());
+        System.out.println("DTO : "+request.getGenreDTO()+" "+request.getGenreDTO().getGenreName());
+        
+        String uniqueGenreConstraintViolationMessage = MessageFormat.format(
+                                                                        exceptionMessageConfig.getDuplicateEntryGenreMessage().getUniqueGenreConstraintMessage(), 
+                                                                        request.getGenreDTO().getGenreName()
+                                                                      );
+        String uniqueGenreConstraintViolationDebugMessage = MessageFormat.format(
+                                                                        exceptionMessageConfig.getDuplicateEntryGenreMessage().getUniqueGenreConstraintDebugMessage(), 
+                                                                        request.getGenreDTO().getGenreName(),
+                                                                        "UK_GenreName"
+                                                                      );
+        System.out.println("Properties Message Exception : "+uniqueGenreConstraintViolationMessage);
+        
+        uniqueConstraints.put(request.getGenreDTO().getGenreName(), uniqueGenreConstraintViolationMessage);
+        uniqueConstraints.put("UK_GenreName", uniqueGenreConstraintViolationDebugMessage);
+        
+        Optional<Entry<String, String>> uniqueGenreMessages = uniqueConstraints.entrySet().stream().filter((c) -> request.getGenreDTO().getGenreName().contains(c.getKey()) ).findAny();
+        System.out.println(uniqueGenreMessages);
+        
+        Optional<Entry<String, String>> uniqueGenreDebugMessages = uniqueConstraints.entrySet().stream().filter((c) -> ex.getMessage().contains(c.getKey()) ).findAny();
+        System.out.println(uniqueGenreDebugMessages);
+        
+        /*
+        uniqueConstraints.entrySet().stream().forEach(e ->  System.out.println(e.getKey() +" ==> "+ e.getValue()) );
+        
+        for(Map.Entry<String, String> entry : uniqueConstraints.entrySet())
+        {
+            boolean ok = ex.getMessage().contains(entry.getKey());
+            if(ok)
+            {
+                System.out.println(entry.getKey()+" => "+entry.getValue());
+            }
+        }
+        
+        ex.printStackTrace();
+        */
+         
+        
+        apiError.setMessage(uniqueGenreMessages.get().getValue());
+        apiError.setDebugMessage(uniqueGenreDebugMessages.get().getValue());
+        
+        return buildResponseEntity(apiError);
     }
 }
