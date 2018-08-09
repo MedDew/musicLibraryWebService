@@ -5,6 +5,7 @@
  */
 package com.musiclibrary.musiclibrarywebservice.bean;
 
+import com.musiclibrary.musiclibraryapi.dto.GenreDTO;
 import com.musiclibrary.musiclibraryapi.dto.MusicDTO;
 import javax.annotation.ManagedBean;
 import lombok.Data;
@@ -22,4 +23,6 @@ public class RequestContext
     private long pathVariable;
     
     private MusicDTO musicDTO;
+    
+    private GenreDTO genreDTO;
 }
