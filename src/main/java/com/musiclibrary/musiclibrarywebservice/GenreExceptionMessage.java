@@ -7,6 +7,7 @@ package com.musiclibrary.musiclibrarywebservice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  *
@@ -14,9 +15,14 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class GenreExceptionMessage 
 {
     private String uniqueGenreConstraintMessage;
     
     private String uniqueGenreConstraintDebugMessage; 
+    
+    private String emptyGenreResultMessage;
+    
+    private String emptyGenreResultDebugMessage;
 }
