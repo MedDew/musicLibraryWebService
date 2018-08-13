@@ -28,7 +28,21 @@ public class ApplicationExceptionMessageConfig
         String uniqueGenreConstraintMessage = environment.getProperty("genrename.unique.constraint.message");
         String uniqueGenreConstraintDebugMessage = environment.getProperty("genrename.unique.constraint.debugMessage");
         
-        GenreExceptionMessage genreExceptionMessage = new GenreExceptionMessage(uniqueGenreConstraintMessage, uniqueGenreConstraintDebugMessage);
+        GenreExceptionMessage genreExceptionMessage = new GenreExceptionMessage();
+        genreExceptionMessage.setUniqueGenreConstraintMessage(uniqueGenreConstraintMessage);
+        genreExceptionMessage.setUniqueGenreConstraintDebugMessage(uniqueGenreConstraintDebugMessage);
+        return genreExceptionMessage;
+    }
+    
+    @Bean
+    public GenreExceptionMessage getEmptyResultGenreMessage()
+    {
+        String emptyGenreResultMessage = environment.getProperty("genrename.empty.result.message");
+        String emptyGenreResultDebuMessage = environment.getProperty("genrename.empty.result.debugMessage");
+        
+        GenreExceptionMessage genreExceptionMessage = new GenreExceptionMessage();
+        genreExceptionMessage.setEmptyGenreResultMessage(emptyGenreResultMessage);
+        genreExceptionMessage.setEmptyGenreResultDebugMessage(emptyGenreResultDebuMessage);
         return genreExceptionMessage;
     }
 }
