@@ -42,6 +42,7 @@ public class GenreController
     @GetMapping(path = "/genres/{id}")
     public GenreDTO getGenre(@PathVariable(name = "id") long genreId)
     {
+        requestContext.setPathVariable(genreId);
         GenreDTO genre = genreService.findByID(genreId);
         
         return genre;
