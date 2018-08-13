@@ -59,6 +59,7 @@ public class GenreController
     @PutMapping("/genres/update/{id}")
     public GenreDTO putGenre(@RequestBody GenreDTO genreDTO, @PathVariable(name = "id") long genreId)
     {
+        requestContext.setGenreDTO(genreDTO);
         GenreDTO updatedGenre = genreService.updateGenre(genreDTO, genreId);
         
         return updatedGenre;
