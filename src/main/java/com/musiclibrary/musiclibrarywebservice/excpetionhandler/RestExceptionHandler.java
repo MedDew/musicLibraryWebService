@@ -20,6 +20,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -197,6 +198,29 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         
         apiError.setMessage(uniqueGenreMessages.get().getValue());
         apiError.setDebugMessage(uniqueGenreDebugMessages.get().getValue());
+        
+        return buildResponseEntity(apiError);
+    }
+    
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    protected ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex)
+    {
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+        
+        String emptyResultMessage = MessageFormat.format(
+                                                            exceptionMessageConfig.getEmptyResultGenreMessage().getEmptyGenreResultMessage(), 
+                                                            request.getGenreDTO().getId()
+                                                        );
+        
+        
+        String emptyResultDebugMessage = MessageFormat.format(
+                                                            exceptionMessageConfig.getEmptyResultGenreMessage().getEmptyGenreResultDebugMessage(), 
+                                                            request.getGenreDTO().getId(),
+                                                            request.getGenreDTO().getId()
+                                                        );
+        
+        apiError.setMessage(emptyResultMessage);
+        apiError.setDebugMessage(emptyResultDebugMessage);
         
         return buildResponseEntity(apiError);
     }
