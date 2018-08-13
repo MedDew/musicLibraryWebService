@@ -60,7 +60,7 @@ public class GenreRepositoryImpl implements GenreRepository
     @Override
     public Genre updateGenre(GenreDTO genreDTO, long id) 
     {
-        Genre foundGenre = em.find(Genre.class, id);//genreDTO.getId()
+        Genre foundGenre = findById(id);//genreDTO.getId() em.find(Genre.class, id)
         foundGenre.setGenreName(genreDTO.getGenreName());
         
         em.persist(foundGenre);
