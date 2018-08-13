@@ -209,13 +209,13 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         
         String emptyResultMessage = MessageFormat.format(
                                                             exceptionMessageConfig.getEmptyResultGenreMessage().getEmptyGenreResultMessage(), 
-                                                            request.getPathVariable()
+                                                            request.getGenreDTO() == null ? request.getPathVariable() : request.getGenreDTO().getId()
                                                         );
         
         
         String emptyResultDebugMessage = MessageFormat.format(
                                                             exceptionMessageConfig.getEmptyResultGenreMessage().getEmptyGenreResultDebugMessage(), 
-                                                            request.getPathVariable()
+                                                            request.getGenreDTO() == null ? request.getPathVariable() : request.getGenreDTO().getId()
                                                         );
         
         apiError.setMessage(emptyResultMessage);
