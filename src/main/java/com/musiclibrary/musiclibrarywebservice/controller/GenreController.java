@@ -69,6 +69,7 @@ public class GenreController
     @DeleteMapping(path = "/genres/delete/{id}")
     public GenreDTO deleteGenre( @PathVariable(name = "id") long userId)
     {
+        requestContext.setPathVariable(userId);
         GenreDTO deletedGenre = genreService.deleteGenreByID( userId);
         
         return deletedGenre;
