@@ -49,8 +49,8 @@ public class ApplicationExceptionMessageConfig
         String uniqueGenreConstraintDebugMessage = environment.getProperty("genrename.unique.constraint.debugMessage");
         
         GenreExceptionMessage genreExceptionMessage = new GenreExceptionMessage();
-        genreExceptionMessage.setUniqueGenreConstraintMessage(uniqueGenreConstraintMessage);
-        genreExceptionMessage.setUniqueGenreConstraintDebugMessage(uniqueGenreConstraintDebugMessage);
+//        genreExceptionMessage.setUniqueGenreConstraintMessage(uniqueGenreConstraintMessage);
+//        genreExceptionMessage.setUniqueGenreConstraintDebugMessage(uniqueGenreConstraintDebugMessage);
         return genreExceptionMessage;
     }
     
@@ -71,8 +71,8 @@ public class ApplicationExceptionMessageConfig
         String emptyGenreResultDebuMessage = environment.getProperty("genrename.empty.result.debugMessage");
         
         GenreExceptionMessage genreExceptionMessage = new GenreExceptionMessage();
-        genreExceptionMessage.setEmptyGenreResultMessage(emptyGenreResultMessage);
-        genreExceptionMessage.setEmptyGenreResultDebugMessage(emptyGenreResultDebuMessage);
+//        genreExceptionMessage.setEmptyGenreResultMessage(emptyGenreResultMessage);
+//        genreExceptionMessage.setEmptyGenreResultDebugMessage(emptyGenreResultDebuMessage);
         return genreExceptionMessage;
     }
 }
