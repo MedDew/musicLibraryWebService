@@ -16,13 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GenreExceptionMessage 
+public class GenreExceptionMessage extends ExceptionMessage
 {
-    private String uniqueGenreConstraintMessage;
     
-    private String uniqueGenreConstraintDebugMessage; 
-    
-    private String emptyGenreResultMessage;
-    
-    private String emptyGenreResultDebugMessage;
 }
