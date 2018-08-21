@@ -36,7 +36,7 @@ public class ApplicationExceptionMessageConfig
     * This method works correctly only when handling unique constraint on Genre Object
     * Namely just 1 object
     * 
-    * @deprecated As of <product> <version>, because ... use
+    * @deprecated As of version <a6f1e80>, because ... use
     * If there are more than 1 object to handle unique constraint on 
     * we have to provide a bean for each object handling that exception
     *             USE {@link #factory.getFactory(foundExceptionMessageType, request)} instead.
@@ -58,7 +58,7 @@ public class ApplicationExceptionMessageConfig
     * This method works correctly only when handling unique constraint on Genre Object
     * Namely just 1 object
     * 
-    * @deprecated As of <product> <version>, because ... use
+    * @deprecated As of version <a6f1e80>, because ... use
     * If there are more than 1 object to handle unique constraint on 
     * we have to provide a bean for each object handling that exception
     *             USE {@link #factory.getFactory(foundExceptionMessageType, request)} instead.
