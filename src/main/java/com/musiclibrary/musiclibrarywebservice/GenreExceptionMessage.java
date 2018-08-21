@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
  * @author Mehdi
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class GenreExceptionMessage extends ExceptionMessage
 {
