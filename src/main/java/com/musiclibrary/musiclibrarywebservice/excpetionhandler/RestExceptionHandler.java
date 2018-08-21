@@ -238,7 +238,7 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
     {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
         
-        String emptyResultMessage = MessageFormat.format(
+        /*String emptyResultMessage = MessageFormat.format(
                                                             exceptionMessageConfig.getEmptyResultGenreMessage().getEmptyGenreResultMessage(), 
                                                             request.getGenreDTO() == null ? request.getPathVariable() : request.getGenreDTO().getId()
                                                         );
@@ -251,7 +251,7 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         
         apiError.setMessage(emptyResultMessage);
         apiError.setDebugMessage(emptyResultDebugMessage);
-        
+        */
         return buildResponseEntity(apiError);
     }
 }
