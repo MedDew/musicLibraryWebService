@@ -5,7 +5,10 @@
  */
 package com.musiclibrary.musiclibrarywebservice.excpetionhandler;
 
+import com.musiclibrary.musiclibrarywebservice.Factory;
 import com.musiclibrary.musiclibrarywebservice.ApplicationExceptionMessageConfig;
+import com.musiclibrary.musiclibrarywebservice.ExceptionMessage;
+import com.musiclibrary.musiclibrarywebservice.ExceptionMessageType;
 import com.musiclibrary.musiclibrarywebservice.bean.RequestContext;
 import java.text.MessageFormat;
 import java.util.Collections;
@@ -14,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -55,6 +59,9 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
     private static Map<String, String> exceptionMessageKeyValue = new HashMap<>();
     
     private static final Map<String, String> uniqueConstraints = new HashMap<>();
+    
+    @Autowired
+    private Factory factory;
     /*Static initialization of uniqueConstraints
     static 
     {
@@ -158,8 +165,17 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         ApiError apiError = new ApiError(HttpStatus.CONFLICT);
         System.out.println("Exception : "+ex);
         System.out.println("Exception : "+ex.getMessage());
-        System.out.println("DTO : "+request.getGenreDTO()+" "+request.getGenreDTO().getGenreName());
+        if(request.getGenreDTO() != null)
+        {
+            System.out.println("DTO : "+request.getGenreDTO()+" "+request.getGenreDTO().getGenreName());
+        }
+        else if(request.getCategoryDTO() != null)
+        {
+            System.out.println("DTO : "+request.getCategoryDTO()+" "+request.getCategoryDTO().getCategoryName());
+        }
+        System.out.println("Unique Constraints : "+ApplicationExceptionMessageConfig.getUniqueConstraints());
         
+        /*
         String uniqueGenreConstraintViolationMessage = MessageFormat.format(
                                                                         exceptionMessageConfig.getDuplicateEntryGenreMessage().getUniqueGenreConstraintMessage(), 
                                                                         request.getGenreDTO().getGenreName()
@@ -180,7 +196,8 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         Optional<Entry<String, String>> uniqueGenreDebugMessages = uniqueConstraints.entrySet().stream().filter((c) -> ex.getMessage().contains(c.getKey()) ).findAny();
         System.out.println(uniqueGenreDebugMessages);
         
-        /*
+        apiError.setMessage(uniqueGenreMessages.get().getValue());
+        apiError.setDebugMessage(uniqueGenreDebugMessages.get().getValue());
         uniqueConstraints.entrySet().stream().forEach(e ->  System.out.println(e.getKey() +" ==> "+ e.getValue()) );
         
         for(Map.Entry<String, String> entry : uniqueConstraints.entrySet())
@@ -194,10 +211,24 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         
         ex.printStackTrace();
         */
-         
         
-        apiError.setMessage(uniqueGenreMessages.get().getValue());
-        apiError.setDebugMessage(uniqueGenreDebugMessages.get().getValue());
+        //LOOPING THROUGH UNIQUE CONSTRAINTS NAME
+        ApplicationExceptionMessageConfig.getUniqueConstraints().stream().forEach((uc) -> System.err.println(uc.trim()));
+        
+        //FILTERING UNIQUE CONSTRAINT MESSAGE FROM THE EXCEPTION MESSAGE IN THE SET OF CONFIGURED CONSTRAINTS  
+        Optional<String> uniqueConstraintType = ApplicationExceptionMessageConfig.getUniqueConstraints().stream().filter( (uc) -> ex.getMessage().contains(uc.trim())  ).findAny();
+        System.err.println(uniqueConstraintType.get());
+        
+        //FIND THE RIGHT EXCEPTION MESSAGE TYPE TO USE 
+        ExceptionMessageType foundExceptionMessageType = ExceptionMessageType.findExceptionMessageType(uniqueConstraintType.get());
+        
+        //RECOVER THE RIGHT EXCEPTION MESSAGE TYPE
+        ExceptionMessage exceptionToUse =  factory.getFactory(foundExceptionMessageType, request);
+        
+         
+        apiError.setMessage(exceptionToUse.getUniqueConstraintMessage());
+        apiError.setDebugMessage(exceptionToUse.getUniqueConstraintDebugMessage());
+        
         
         return buildResponseEntity(apiError);
     }
