@@ -5,6 +5,7 @@
  */
 package com.musiclibrary.musiclibrarywebservice.bean;
 
+import com.musiclibrary.musiclibraryapi.dto.CategoryDTO;
 import com.musiclibrary.musiclibraryapi.dto.GenreDTO;
 import com.musiclibrary.musiclibraryapi.dto.MusicDTO;
 import javax.annotation.ManagedBean;
@@ -25,4 +26,6 @@ public class RequestContext
     private MusicDTO musicDTO;
     
     private GenreDTO genreDTO;
+    
+    private CategoryDTO categoryDTO;
 }
