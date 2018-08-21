@@ -5,6 +5,9 @@
  */
 package com.musiclibrary.musiclibrarywebservice;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +25,23 @@ public class ApplicationExceptionMessageConfig
     @Autowired
     private Environment environment;
     
+    private static final Set<String> uniqueConstraints = new HashSet<>(Arrays.asList("UK_GenreName", "UK_CategoryName"));
+    
+    public static Set<String> getUniqueConstraints()
+    {
+        return ApplicationExceptionMessageConfig.uniqueConstraints;
+    }
+    
+    /**
+    * This method works correctly only when handling unique constraint on Genre Object
+    * Namely just 1 object
+    * 
+    * @deprecated As of <product> <version>, because ... use
+    * If there are more than 1 object to handle unique constraint on 
+    * we have to provide a bean for each object handling that exception
+    *             USE {@link #factory.getFactory(foundExceptionMessageType, request)} instead.
+    */
+    @Deprecated
     @Bean
     public GenreExceptionMessage getDuplicateEntryGenreMessage()
     {
@@ -34,6 +54,16 @@ public class ApplicationExceptionMessageConfig
         return genreExceptionMessage;
     }
     
+    /**
+    * This method works correctly only when handling unique constraint on Genre Object
+    * Namely just 1 object
+    * 
+    * @deprecated As of <product> <version>, because ... use
+    * If there are more than 1 object to handle unique constraint on 
+    * we have to provide a bean for each object handling that exception
+    *             USE {@link #factory.getFactory(foundExceptionMessageType, request)} instead.
+    */
+    @Deprecated
     @Bean
     public GenreExceptionMessage getEmptyResultGenreMessage()
     {
