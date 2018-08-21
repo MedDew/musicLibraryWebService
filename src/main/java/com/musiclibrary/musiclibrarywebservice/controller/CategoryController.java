@@ -6,6 +6,7 @@
 package com.musiclibrary.musiclibrarywebservice.controller;
 
 import com.musiclibrary.musiclibraryapi.dto.CategoryDTO;
+import com.musiclibrary.musiclibrarywebservice.bean.RequestContext;
 import com.musiclibrary.musiclibrarywebservice.service.CategoryManager;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class CategoryController
     @Autowired
     private CategoryManager categoryService;
     
+    @Autowired
+    private RequestContext requestContext;
+    
     @GetMapping("/categories")
     public List<CategoryDTO> getCategories()
     {
@@ -42,6 +46,7 @@ public class CategoryController
     @PostMapping("/categories/create")
     public CategoryDTO postCategory(@RequestBody CategoryDTO categoryDTO)
     {
+        requestContext.setCategoryDTO(categoryDTO);
         return categoryService.insertCategory(categoryDTO);
     }
     
