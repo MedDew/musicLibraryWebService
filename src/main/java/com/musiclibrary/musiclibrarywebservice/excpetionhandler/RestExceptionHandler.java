@@ -60,6 +60,8 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
     
     private static final Map<String, String> uniqueConstraints = new HashMap<>();
     
+    private static final String[] exceptionTypeKeys = new String[]{"duplicate", "empty"};
+    
     @Autowired
     private Factory factory;
     /*Static initialization of uniqueConstraints
@@ -165,6 +167,7 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         ApiError apiError = new ApiError(HttpStatus.CONFLICT);
         System.out.println("Exception : "+ex);
         System.out.println("Exception : "+ex.getMessage());
+        System.out.println("isCategory : "+ex.getMessage().contains("Categories"));
         if(request.getGenreDTO() != null)
         {
             System.out.println("DTO : "+request.getGenreDTO()+" "+request.getGenreDTO().getGenreName());
@@ -173,7 +176,7 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         {
             System.out.println("DTO : "+request.getCategoryDTO()+" "+request.getCategoryDTO().getCategoryName());
         }
-        System.out.println("Unique Constraints : "+ApplicationExceptionMessageConfig.getUniqueConstraints());
+        System.out.println("Unique Constraints : "+ApplicationExceptionMessageConfig.getExceptions());
         
         /*
         String uniqueGenreConstraintViolationMessage = MessageFormat.format(
@@ -213,17 +216,17 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         */
         
         //LOOPING THROUGH UNIQUE CONSTRAINTS NAME
-        ApplicationExceptionMessageConfig.getUniqueConstraints().stream().forEach((uc) -> System.err.println(uc.trim()));
+        ApplicationExceptionMessageConfig.getExceptions().stream().forEach((uc) -> System.err.println(uc.trim()));
         
         //FILTERING UNIQUE CONSTRAINT MESSAGE FROM THE EXCEPTION MESSAGE IN THE SET OF CONFIGURED CONSTRAINTS  
-        Optional<String> uniqueConstraintType = ApplicationExceptionMessageConfig.getUniqueConstraints().stream().filter( (uc) -> ex.getMessage().contains(uc.trim())  ).findAny();
+        Optional<String> uniqueConstraintType = ApplicationExceptionMessageConfig.getExceptions().stream().filter( (uc) -> ex.getMessage().contains(uc.trim())  ).findAny();
         System.err.println(uniqueConstraintType.get());
         
         //FIND THE RIGHT EXCEPTION MESSAGE TYPE TO USE 
         ExceptionMessageType foundExceptionMessageType = ExceptionMessageType.findExceptionMessageType(uniqueConstraintType.get());
         
         //RECOVER THE RIGHT EXCEPTION MESSAGE TYPE
-        ExceptionMessage exceptionToUse =  factory.getFactory(foundExceptionMessageType, request);
+        ExceptionMessage exceptionToUse =  factory.getFactory(foundExceptionMessageType, request, ApplicationExceptionMessageConfig.getExceptionTypes().get(exceptionTypeKeys[0]));
         
          
         apiError.setMessage(exceptionToUse.getUniqueConstraintMessage());
@@ -237,6 +240,21 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
     protected ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex)
     {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND);
+        System.out.println(request.getClass().getSuperclass());
+        
+        //LOOPING THROUGH UNIQUE CONSTRAINTS NAME
+        ApplicationExceptionMessageConfig.getExceptions().stream().forEach((uc) -> System.err.println(uc.trim()+" | "+uc.toLowerCase()));
+        
+        //FILTERING REQUEST URI IN THE SET OF CONFIGURED CONSTRAINTS  
+        Optional<String> uriType = ApplicationExceptionMessageConfig.getExceptions().stream().filter( (uc) -> request.getUri().contains(uc.toLowerCase())  ).findAny();
+        System.err.println(uriType.get());
+        
+        //FIND THE RIGHT EXCEPTION MESSAGE TYPE TO USE 
+        ExceptionMessageType foundExceptionMessageType = ExceptionMessageType.findExceptionMessageType(uriType.get());
+        
+        //RECOVER THE RIGHT EXCEPTION MESSAGE TYPE
+//        if()
+        ExceptionMessage exceptionToUse =  factory.getFactory(foundExceptionMessageType, request, ApplicationExceptionMessageConfig.getExceptionTypes().get(exceptionTypeKeys[1]));
         
         /*String emptyResultMessage = MessageFormat.format(
                                                             exceptionMessageConfig.getEmptyResultGenreMessage().getEmptyGenreResultMessage(), 
@@ -252,6 +270,8 @@ public class RestExceptionHandler  extends ResponseEntityExceptionHandler
         apiError.setMessage(emptyResultMessage);
         apiError.setDebugMessage(emptyResultDebugMessage);
         */
+        apiError.setMessage(exceptionToUse.getEmptyResultMessage());
+        apiError.setDebugMessage(exceptionToUse.getEmptyResultDebugMessage());
         return buildResponseEntity(apiError);
     }
 }
