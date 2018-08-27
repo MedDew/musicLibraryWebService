@@ -40,6 +40,8 @@ public class CategoryController
     @GetMapping("/categories/{id}")
     public CategoryDTO getCategory(@PathVariable(name = "id") long categoryId )
     {
+        requestContext.setPathVariable(categoryId);
+        requestContext.setUri("/categories/"+categoryId);
         return categoryService.findById(categoryId);
     }
     
@@ -53,12 +55,16 @@ public class CategoryController
     @PutMapping("/categories/update/{id}")
     public CategoryDTO putCategory(@RequestBody CategoryDTO categoryDTO, @PathVariable(name = "id") long categoryId)
     {
+        requestContext.setPathVariable(categoryId);
+        requestContext.setUri("/categories/update/"+categoryId);
         return categoryService.updateCategory(categoryDTO, categoryId);
     }
     
     @DeleteMapping("/categories/delete/{id}")
     public CategoryDTO deleteCategory(@PathVariable(name = "id") long categoryId)
     {
+        requestContext.setPathVariable(categoryId);
+        requestContext.setUri("/categories/update/"+categoryId);
         return categoryService.deleteCategoryById(categoryId);
     }
     
