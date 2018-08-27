@@ -24,7 +24,7 @@ public class Factory
     private Environment environment;
     
     
-    public ExceptionMessage getFactory(ExceptionMessageType exMsgType, RequestContext requestContext)
+    public ExceptionMessage getFactory(ExceptionMessageType exMsgType, RequestContext requestContext, String exceptionType)
     {
         System.out.println("exMsgType.toString() "+exMsgType.toString());
         ExceptionMessage exceptionToUse = null;
@@ -34,72 +34,98 @@ public class Factory
                 System.err.println("Instantiate GenreExceptionMessage");
                 exceptionToUse = new GenreExceptionMessage();
                 
-                //FORMAT GENRE UNIQUE CONSTRAINT MESSAGE
-                String genreUniqueConstraintMessage = MessageFormat.format(
-                                                                            environment.getProperty("genrename.unique.constraint.message"), 
-                                                                            requestContext.getGenreDTO().getGenreName()
-                                                                          );
+                switch(exceptionType)
+                {
+                    // /!\ HANDLING DUPLICATE EXCEPTION ONLY
+                    case "Unicity" :
+                        //FORMAT GENRE UNIQUE CONSTRAINT MESSAGE
+                        String genreUniqueConstraintMessage = MessageFormat.format(
+                                                                                    environment.getProperty("genrename.unique.constraint.message"), 
+                                                                                    requestContext.getGenreDTO().getGenreName()
+                                                                                  );
+
+
+                        exceptionToUse.setUniqueConstraintMessage(genreUniqueConstraintMessage);
+
+                        //FORMAT GENRE UNIQUE CONSTRAINT DEBUG MESSAGE
+                        String genreUniqueConstraintDebugMessage = MessageFormat.format(
+                                                                                        environment.getProperty("genrename.unique.constraint.debugMessage"), 
+                                                                                        requestContext.getGenreDTO().getGenreName(),
+                                                                                        "UK_GenreName"
+                                                                                       );
+
+                        exceptionToUse.setUniqueConstraintDebugMessage(genreUniqueConstraintDebugMessage);
+                    break;
+                    
+                    // /!\ HANDLING NO RESULT EXCEPTION ONLY
+                    case "Noresult":
+                        //FORMAT GENRE EMPTY RESULT MESSAGE
+                        String genreEmptyResultMessage = MessageFormat.format(
+                                                                                environment.getProperty("genrename.empty.result.message"), 
+                                                                                requestContext.getGenreDTO() == null ? requestContext.getPathVariable() : requestContext.getGenreDTO().getId()
+                                                                             );
+                        exceptionToUse.setEmptyResultMessage(genreEmptyResultMessage);
+
+                        //FORMAT GENRE EMPTY RESULT DEBUG MESSAGE
+                        String genreEmptyResultDebugMessage = MessageFormat.format(
+                                                                                    environment.getProperty("genrename.empty.result.debugMessage"), 
+                                                                                    requestContext.getGenreDTO() == null ? requestContext.getPathVariable() : requestContext.getGenreDTO().getId()
+                                                                                  );
+                        exceptionToUse.setEmptyResultDebugMessage(genreEmptyResultDebugMessage);
+                    break;
+                }
                 
-                
-                exceptionToUse.setUniqueConstraintMessage(genreUniqueConstraintMessage);
-                
-                //FORMAT GENRE UNIQUE CONSTRAINT DEBUG MESSAGE
-                String genreUniqueConstraintDebugMessage = MessageFormat.format(
-                                                                                environment.getProperty("genrename.unique.constraint.debugMessage"), 
-                                                                                requestContext.getGenreDTO().getGenreName(),
-                                                                                "UK_GenreName"
-                                                                               );
-                
-                exceptionToUse.setUniqueConstraintDebugMessage(genreUniqueConstraintDebugMessage);
- 
-                //FORMAT GENRE EMPTY RESULT MESSAGE
-                String genreEmptyResultMessage = MessageFormat.format(
-                                                                        environment.getProperty("genrename.empty.result.message"), 
-                                                                        requestContext.getGenreDTO() == null ? requestContext.getPathVariable() : requestContext.getGenreDTO().getId()
-                                                                     );
-                exceptionToUse.setEmptyResultMessage(genreEmptyResultMessage);
-                
-                //FORMAT GENRE EMPTY RESULT DEBUG MESSAGE
-                String genreEmptyResultDebugMessage = MessageFormat.format(
-                                                                            environment.getProperty("genrename.empty.result.debugMessage"), 
-                                                                            requestContext.getGenreDTO() == null ? requestContext.getPathVariable() : requestContext.getGenreDTO().getId()
-                                                                          );
-                exceptionToUse.setEmptyResultDebugMessage(genreEmptyResultDebugMessage);
             break;
             
             case CATEGORY ://"UK_CategoryName"  
                 System.err.println("Instantiate CategoryExceptionMessage");
                 exceptionToUse = new CategoryExceptionMessage();
                 
-                //FORMAT CATEGORY UNIQUE CONSTRAINT MESSAGE
-                String categoryUniqueConstraintMessage = MessageFormat.format(
-                                                                                environment.getProperty("categoryname.unique.constraint.message"), 
-                                                                                requestContext.getCategoryDTO().getCategoryName()
-                                                                             );
-                exceptionToUse.setUniqueConstraintMessage(categoryUniqueConstraintMessage);
+                switch(exceptionType)
+                {
+                    // /!\ HANDLING DUPLICATE EXCEPTION ONLY
+                    case "Unicity": 
+                        //FORMAT CATEGORY UNIQUE CONSTRAINT MESSAGE
+                        String categoryUniqueConstraintMessage = MessageFormat.format(
+                                                                                        environment.getProperty("categoryname.unique.constraint.message"), 
+                                                                                        requestContext.getCategoryDTO().getCategoryName()
+                                                                                     );
+                        exceptionToUse.setUniqueConstraintMessage(categoryUniqueConstraintMessage);
+
+                        //FORMAT CATEGORY UNIQUE CONSTRAINT DEBUG MESSAGE
+                        String categoryUniqueConstraintDebugMessage = MessageFormat.format(
+                                                                                            environment.getProperty("categoryname.unique.constraint.debugMessage"), 
+                                                                                            requestContext.getCategoryDTO().getCategoryName(),
+                                                                                            "UK_CategoryName"
+                                                                                          );
+                        exceptionToUse.setUniqueConstraintDebugMessage(categoryUniqueConstraintDebugMessage);
+                    break;
+                    
+                    // /!\ HANDLING NO RESULT EXCEPTION ONLY
+                    case "Noresult":
+                        
+                        
+                            
+                        
+                            //FORMAT CATEGORY EMPTY RESULT MESSAGE
+                            String categoryEmptyResultMessage = MessageFormat.format(
+                                                                                        environment.getProperty("categoryname.empty.result.message"), 
+                                                                                        //requestContext.getCategoryDTO() == null ? requestContext.getPathVariable() : requestContext.getCategoryDTO().getId()
+                                                                                        requestContext.getPathVariable()
+                                                                                    );
+                            exceptionToUse.setEmptyResultMessage(categoryEmptyResultMessage);
+                            //FORMAT CATEGORY EMPTY RESULT DEBUG MESSAGE
+                            String categoryEmptyResultDebugMessage = MessageFormat.format(
+                                                                                            environment.getProperty("categoryname.empty.result.debugMessage"),
+                                                                                            //requestContext.getCategoryDTO() == null ? requestContext.getPathVariable() : requestContext.getCategoryDTO().getId()
+                                                                                            requestContext.getPathVariable()
+                                                                                         );
+                            exceptionToUse.setEmptyResultDebugMessage(categoryEmptyResultDebugMessage);
+                       
+
+                    break;
+                }
                 
-                //FORMAT CATEGORY UNIQUE CONSTRAINT DEBUG MESSAGE
-                String categoryUniqueConstraintDebugMessage = MessageFormat.format(
-                                                                                    environment.getProperty("categoryname.unique.constraint.debugMessage"), 
-                                                                                    requestContext.getCategoryDTO().getCategoryName(),
-                                                                                    "UK_CategoryName"
-                                                                                  );
-                
-                exceptionToUse.setUniqueConstraintDebugMessage(categoryUniqueConstraintDebugMessage);
-                
-                //FORMAT CATEGORY EMPTY RESULT MESSAGE
-                String categoryEmptyResultMessage = MessageFormat.format(
-                                                                            environment.getProperty("categoryname.empty.result.message"), 
-                                                                            requestContext.getCategoryDTO() == null ? requestContext.getPathVariable() : requestContext.getCategoryDTO().getId()
-                                                                        );
-                exceptionToUse.setEmptyResultMessage(categoryEmptyResultMessage);
-                
-                //FORMAT CATEGORY EMPTY RESULT DEBUG MESSAGE
-                String categoryEmptyResultDebugMessage = MessageFormat.format(
-                                                                                environment.getProperty("categoryname.empty.result.debugMessage"),
-                                                                                requestContext.getCategoryDTO() == null ? requestContext.getPathVariable() : requestContext.getCategoryDTO().getId()
-                                                                             );
-                exceptionToUse.setEmptyResultDebugMessage(categoryEmptyResultDebugMessage);
             break;
         }
         return exceptionToUse;
