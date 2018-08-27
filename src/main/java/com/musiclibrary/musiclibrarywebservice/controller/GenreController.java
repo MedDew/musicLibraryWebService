@@ -43,6 +43,7 @@ public class GenreController
     public GenreDTO getGenre(@PathVariable(name = "id") long genreId)
     {
         requestContext.setPathVariable(genreId);
+        requestContext.setUri("/genres/"+genreId);
         GenreDTO genre = genreService.findByID(genreId);
         
         return genre;
@@ -61,16 +62,18 @@ public class GenreController
     public GenreDTO putGenre(@RequestBody GenreDTO genreDTO, @PathVariable(name = "id") long genreId)
     {
         requestContext.setGenreDTO(genreDTO);
+        requestContext.setUri("/genres/update/"+genreId);
         GenreDTO updatedGenre = genreService.updateGenre(genreDTO, genreId);
         
         return updatedGenre;
     }
     
     @DeleteMapping(path = "/genres/delete/{id}")
-    public GenreDTO deleteGenre( @PathVariable(name = "id") long userId)
+    public GenreDTO deleteGenre( @PathVariable(name = "id") long genreId)
     {
-        requestContext.setPathVariable(userId);
-        GenreDTO deletedGenre = genreService.deleteGenreByID( userId);
+        requestContext.setPathVariable(genreId);
+        requestContext.setUri("/genres/delete/"+genreId);
+        GenreDTO deletedGenre = genreService.deleteGenreByID( genreId);
         
         return deletedGenre;
     }
