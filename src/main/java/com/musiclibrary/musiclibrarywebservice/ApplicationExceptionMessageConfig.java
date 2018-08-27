@@ -6,7 +6,9 @@
 package com.musiclibrary.musiclibrarywebservice;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,13 +27,20 @@ public class ApplicationExceptionMessageConfig
     @Autowired
     private Environment environment;
     
-    private static final Set<String> uniqueConstraints = new HashSet<>(Arrays.asList("UK_GenreName", "UK_CategoryName"));
+    private static final Set<String> exceptions = new HashSet<>(Arrays.asList("Genres", "Categories"));//"UK_GenresName", "UK_CategoriesName"
+    private static final Map<String, String> exceptionTypes = new HashMap<String, String>();//{"Unicity", "Noresult"}
     
-    public static Set<String> getUniqueConstraints()
+    public static Set<String> getExceptions()
     {
-        return ApplicationExceptionMessageConfig.uniqueConstraints;
+        return ApplicationExceptionMessageConfig.exceptions;
     }
     
+    public static Map<String, String> getExceptionTypes()
+    {
+        ApplicationExceptionMessageConfig.exceptionTypes.put("duplicate", "Unicity");
+        ApplicationExceptionMessageConfig.exceptionTypes.put("empty", "Noresult");
+        return ApplicationExceptionMessageConfig.exceptionTypes;
+    }
     /**
     * This method works correctly only when handling unique constraint on Genre Object
     * Namely just 1 object
