@@ -28,4 +28,6 @@ public class RequestContext
     private GenreDTO genreDTO;
     
     private CategoryDTO categoryDTO;
+    
+    private String uri;
 }
