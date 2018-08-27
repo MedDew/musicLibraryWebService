@@ -11,8 +11,8 @@ package com.musiclibrary.musiclibrarywebservice;
  */
 public enum ExceptionMessageType 
 {
-    GENRE("UK_GenreName"),//GenreException
-    CATEGORY("UK_CategoryName");//CategoryException
+    GENRE("Genres"),//GenreException | "UK_GenreName" 
+    CATEGORY("Categories");//CategoryException | "UK_CategoryName"
     
     private String exceptionMessageTypeName;
     
@@ -49,6 +49,12 @@ public enum ExceptionMessageType
         }
         
         return foundExceptionMessageType;
+    }
+    
+    public static String firstCharToLowerCase(String exceptionMessageType)
+    {
+        String exceptionMessage1stCharTypeToLowerCase = exceptionMessageType.substring(0, 1).toLowerCase() + exceptionMessageType.substring(1);
+        return exceptionMessage1stCharTypeToLowerCase;
     }
 
     @Override
