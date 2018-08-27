@@ -52,7 +52,7 @@ public class CategoryRepositoryImpl implements CategoryRepository
     @Override
     public Category updateCategory(CategoryDTO categoryDTO, long id) 
     {
-        Category foundCategory = em.find(Category.class, id);
+        Category foundCategory = findById(id);//em.find(Category.class, id)
         foundCategory.setCategoryName(categoryDTO.getCategoryName());
         
         em.persist(foundCategory);
@@ -63,7 +63,7 @@ public class CategoryRepositoryImpl implements CategoryRepository
     @Override
     public Category deleteCategoryById( long id) 
     {
-        Category foundCategory = em.find(Category.class, id);
+        Category foundCategory = findById(id);//em.find(Category.class, id)
         
         em.remove(foundCategory);
         
