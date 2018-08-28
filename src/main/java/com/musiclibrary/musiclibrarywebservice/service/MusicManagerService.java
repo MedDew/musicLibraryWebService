@@ -57,6 +57,9 @@ public class MusicManagerService implements MusicManager
                 genres.add(genre);
             });
             
+            //CONVERT THE LocalDate ReleaseYear TO String
+            m.setConvertedReleaseYearToString(m.getReleaseYear());
+            
 //            MusicDTO music = new MusicDTO(m.getId(), m.getAlbum(), m.getBand(), m.getConvertedReleaseYearToString(), m.getCategory().getId(), m.getGenres(), m.getReleaseYear());
             MusicDTO music = new MusicDTO(m.getId(), m.getAlbum(), m.getBand(), m.getConvertedReleaseYearToString(), category, genres);
             
@@ -74,6 +77,7 @@ public class MusicManagerService implements MusicManager
         //CRAPPY
         //FIND THE CORRECT Category ASSOCIATED TO THE Music CREATED 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        //CONVERT Category ENTITY TO CategoryDTO
         CategoryDTO category = categoryService.findById(createdMusic.getCategory().getId());
         
         //CRAPPY
@@ -81,6 +85,7 @@ public class MusicManagerService implements MusicManager
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
         List<GenreDTO> genres = new ArrayList<>();
         createdMusic.getGenres().forEach(g -> {
+            //CONVERT Genre ENTITY TO GenreDTO
             GenreDTO genre = genreService.findByID(g.getId());
             genres.add(genre);
         });
@@ -94,6 +99,8 @@ public class MusicManagerService implements MusicManager
                                         genres
                                      );
         
+        //TEST IF THE DTO KEEP ALL THE INSTANCE VARIABLE
+        music.setReleaseYearLocalDate(createdMusic.getConvertedReleaseYearToString());
         return music;
     }
 
@@ -105,6 +112,7 @@ public class MusicManagerService implements MusicManager
         //CRAPPY
         //FIND THE CORRECT Category ASSOCIATED TO THE Music UPDATED 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        //CONVERT Category ENTITY TO CategoryDTO
         CategoryDTO category = categoryService.findById(updatedMusic.getCategory().getId());
         
         //CRAPPY
@@ -112,6 +120,7 @@ public class MusicManagerService implements MusicManager
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
         List<GenreDTO> genres = new ArrayList<>();
         updatedMusic.getGenres().forEach(g -> {
+            //CONVERT Genre ENTITY TO GenreDTO
             GenreDTO genre = genreService.findByID(g.getId());
             
             genres.add(genre);
@@ -138,7 +147,8 @@ public class MusicManagerService implements MusicManager
         //CRAPPY
         //FIND THE CORRECT Category ASSOCIATED TO THE Music WHICH WAS/WERE ADDED Genre 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
-        addedGenreMusic.getCategory().getId();
+        
+        //CONVERT Category ENTITY TO CategoryDTO
         CategoryDTO category = categoryService.findById(addedGenreMusic.getCategory().getId());
         
         //CRAPPY
@@ -166,6 +176,7 @@ public class MusicManagerService implements MusicManager
         //CRAPPY
         //FIND THE CORRECT Category ASSOCIATED TO THE Music WHICH WAS/WERE REMOVED Genre 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        //CONVERT Category ENTITY TO CategoryDTO
         CategoryDTO category = categoryService.findById(removedGenreMusic.getCategory().getId());
         
         //CRAPPY
@@ -193,6 +204,7 @@ public class MusicManagerService implements MusicManager
         //CRAPPY
         //FIND THE CORRECT Category ASSOCIATED TO THE Music DELETED 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        //CONVERT Category ENTITY TO CategoryDTO
         CategoryDTO category = categoryService.findById(deletedMusic.getCategory().getId());
         
         //CRAPPY
@@ -200,12 +212,14 @@ public class MusicManagerService implements MusicManager
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
         List<GenreDTO> genres = new ArrayList<>();
         deletedMusic.getGenres().forEach(g -> {
+            //CONVERT Genre ENTITY TO GenreDTO
             GenreDTO genre = genreService.findByID(g.getId());
             
             genres.add(genre);
         });
         
-        
+        //CONVERT THE LocalDate ReleaseYear TO String
+        deletedMusic.setConvertedReleaseYearToString(deletedMusic.getReleaseYear());
         
         MusicDTO music = new MusicDTO(
                                         deletedMusic.getId(), 
@@ -227,6 +241,7 @@ public class MusicManagerService implements MusicManager
         //CRAPPY
         //FIND THE CORRECT Category ASSOCIATED TO THE Music FOUND 
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
+        //CONVERT Category ENTITY TO CategoryDTO
         CategoryDTO category = categoryService.findById(foundMusic.getCategory().getId());
         
         //CRAPPY
@@ -234,10 +249,14 @@ public class MusicManagerService implements MusicManager
         //TO RESPECT THE BASE ARCHITECTURE TO JUST RETURNING THE DTO
         List<GenreDTO> genres = new ArrayList<>();
         foundMusic.getGenres().forEach(g -> {
+            //CONVERT Genre ENTITY TO GenreDTO
             GenreDTO genre = genreService.findByID(g.getId());
             
             genres.add(genre);
         });
+        
+        //CONVERT THE LocalDate ReleaseYear TO String
+        foundMusic.setConvertedReleaseYearToString(foundMusic.getReleaseYear());
         
         MusicDTO music = new MusicDTO(
                                         foundMusic.getId(), 
